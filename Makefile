@@ -19,9 +19,9 @@ $(TARGZ_FILENAME):
 	tar -zvcf "$(TARGZ_FILENAME)" "$(PROGNAME_VERSION)"
 
 $(PROGNAME):
-	sed -i ".sed_original" -e "s/#define VERSION.*/#define VERSION \"${VERSION}\"/" ${SOURCE_FILENAME}
+	sed -e "s/#define VERSION.*/#define VERSION \"${VERSION}\"/" -e "w ${SOURCE_FILENAME}.ready" ${SOURCE_FILENAME}
 	rm -v "${SOURCE_FILENAME}.sed_original"
-	${PLUGIN_COMPILER} "${SOURCE_FILENAME}" "-o${PROGNAME}" | tee ${LOGFILE}
+	${PLUGIN_COMPILER} "${SOURCE_FILENAME}.ready" "-o${PROGNAME}" | tee ${LOGFILE}
 
 test:
 	@echo "Not implemented yet"
