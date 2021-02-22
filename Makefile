@@ -1,13 +1,15 @@
 VERSION := $(shell cat .version )
 PLATFORM := $(shell uname -s | tr [A-Z] [a-z])
+PWD = $(shell pwd)
 
 PROGNAME = amxx_game_master_menu.amxx
 PROGNAME_VERSION = $(PROGNAME)-$(VERSION)
 SOURCE_FILENAME = amxx_game_master_menu.sma
 TARGZ_FILENAME = $(PROGNAME)-$(VERSION).tar.gz
 TARGZ_CONTENTS = ${PROGNAME} README.md Makefile .version
+LOGFILE = "${PROGNAME_VERSION}-build.log"
 
-PWD = $(shell pwd)
+PLUGIN_COMPILER = "build/linux/amxxpc"
 
 .PHONY: all version build clean install test
 
@@ -17,20 +19,19 @@ $(TARGZ_FILENAME):
 	tar -zvcf "$(TARGZ_FILENAME)" "$(PROGNAME_VERSION)"
 
 $(PROGNAME):
-	sed -i ".sed_original" -e "s/#define VERSION.*/#define VERSION \"${VERSION}\"/" "${SOURCE_FILENAME}"
+	sed -i ".sed_original" -e "s/#define VERSION.*/#define VERSION \"${VERSION}\"/" ${SOURCE_FILENAME}
 	rm -v "${SOURCE_FILENAME}.sed_original"
+	${PLUGIN_COMPILER} "${SOURCE_FILENAME}" "-o${PROGNAME}" | tee ${LOGFILE}
 
 test:
 	@echo "Not implemented yet"
 
 install:
-	install -d $(DESTDIR)/usr/share/doc/$(PROGNAME_VERSION)
-	install -d $(DESTDIR)/usr/bin
-	install -m 755 $(PROGNAME) $(DESTDIR)/usr/bin
-	install -m 644 README.md $(DESTDIR)/usr/share/doc/$(PROGNAME_VERSION)
+	@echo "Not implemented yet"
 
 clean:
 	rm -vf "$(PROGNAME)"
+	rm -vf "$(TARGZ_FILENAME)"
 
 build: $(PROGNAME)
 
