@@ -20,7 +20,6 @@ $(TARGZ_FILENAME):
 
 $(PROGNAME):
 	sed -e "s/#define VERSION.*/#define VERSION \"${VERSION}\"/" -e "w ${SOURCE_FILENAME}.ready" ${SOURCE_FILENAME}
-	rm -v "${SOURCE_FILENAME}.sed_original"
 	${PLUGIN_COMPILER} "${SOURCE_FILENAME}.ready" "-o${PROGNAME}" | tee ${LOGFILE}
 
 test:
