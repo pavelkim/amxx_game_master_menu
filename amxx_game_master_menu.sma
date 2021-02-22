@@ -10,12 +10,10 @@
 
 #define PLUGIN "Game Master Menu"
 #define AUTHOR "Pavel Kim"
-#define VERSION "1.0.0"
+#define VERSION "0.0.0"
 
 #include <amxmodx>
 #include <amxmisc>
-
-#define VERSION "0.0.1"
 
 public plugin_init() {
     register_plugin(PLUGIN, VERSION, AUTHOR );
