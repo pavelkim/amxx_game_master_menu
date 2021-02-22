@@ -20,9 +20,9 @@ $(TARGZ_FILENAME):
 	tar -zvcf "$(TARGZ_FILENAME)" "$(PROGNAME_VERSION)"
 
 $(PROGNAME):
-	sed -e "s/#define VERSION.*/#define VERSION \"${VERSION}\"/" -e "w ${SOURCE_FILENAME}.ready" ${SOURCE_FILENAME}
-	export LD_LIBRARY_PATH="${PLUGIN_COMPILER_BASEDIR}"
-	${PLUGIN_COMPILER} "${SOURCE_FILENAME}.ready" "-o${PROGNAME}" | tee ${LOGFILE}
+	sed -e "s/#define VERSION.*/#define VERSION \"${VERSION}\"/" ${SOURCE_FILENAME} > "$(SOURCE_FILENAME).ready"
+	export LD_LIBRARY_PATH="$(PWD)/$(PLUGIN_COMPILER_BASEDIR)"
+	${PLUGIN_COMPILER} "$(SOURCE_FILENAME).ready" "-o$(PROGNAME)" | tee ${LOGFILE}
 
 test:
 	@echo "Not implemented yet"
