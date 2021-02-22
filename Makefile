@@ -11,7 +11,7 @@ LOGFILE = "${PROGNAME_VERSION}-build.log"
 
 PLUGIN_COMPILER_BASEDIR = "build/linux"
 PLUGIN_COMPILER_INCLUDE = "build/include"
-PLUGIN_COMPILER = "$(PLUGIN_COMPILER_BASEDIR)/amxxpc"
+PLUGIN_COMPILER = $(PLUGIN_COMPILER_BASEDIR)/amxxpc
 LD_LIBRARY_PATH = ""
 .PHONY: all version build clean install test
 
@@ -21,8 +21,8 @@ $(TARGZ_FILENAME):
 	tar -zvcf "$(TARGZ_FILENAME)" "$(PROGNAME_VERSION)"
 
 $(PROGNAME):
-	sed -e "s/#define VERSION.*/#define VERSION \"${VERSION}\"/" ${SOURCE_FILENAME} > "$(SOURCE_FILENAME).ready"
-	${PLUGIN_COMPILER} "-i$(PWD)/$(PLUGIN_COMPILER_INCLUDE)" "-D$(PWD)/$(PLUGIN_COMPILER_BASEDIR)" "$(SOURCE_FILENAME).ready" "-o$(PROGNAME)" | tee ${LOGFILE}
+	sed -e "s/#define VERSION.*/#define VERSION \"${VERSION}\"/" "$(SOURCE_FILENAME)" > "$(SOURCE_FILENAME).ready"
+	${PLUGIN_COMPILER} -i$(PWD)/$(PLUGIN_COMPILER_INCLUDE) -D$(PWD)/$(PLUGIN_COMPILER_BASEDIR) "$(SOURCE_FILENAME).ready" -o$(PROGNAME) | tee ${LOGFILE}
 
 test:
 	@echo "Not implemented yet"
