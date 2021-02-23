@@ -17,13 +17,13 @@
 
 public plugin_init() {
     register_plugin(PLUGIN, VERSION, AUTHOR );
-    register_clcmd("say /gamemaster", "GameMasterMenu", ADMIN_MENU, "- easy game management");
+    register_clcmd("say /gamemaster", "GameMasterMenuInit", ADMIN_MENU, "- easy game management");
 }
 
-public GameMasterMenu(uid, level, cid) {
+public GameMasterMenuInit(uid, level, cid) {
 
     new message[50];
-    format(message, charsmax(message), "[GMMHandler] uid: %i level: %s cid: %s", uid, level, cid);
+    format(message, charsmax(message), "[Init] uid: %i level: %s cid: %s", uid, level, cid);
     say(message);
 
     if (cmd_access(uid, level, cid, 0)) {
@@ -40,7 +40,7 @@ public GameMasterMenu(uid, level, cid) {
 MakeGameMasterMenu(uid, const MenuTitle[], const MenuHandler[]) {
 
     new message[50];
-    format(message, charsmax(message), "[MakeGMM] uid: %i MenuTitle: %s MenuHandler: %s", uid, MenuTitle, MenuHandler);
+    format(message, charsmax(message), "[MakeMenu] uid: %i MenuTitle: %s MenuHandler: %s", uid, MenuTitle, MenuHandler);
     say(message);
 
     new MenuInstance = menu_create(MenuTitle, MenuHandler);
@@ -61,7 +61,7 @@ MakeGameMasterMenu(uid, const MenuTitle[], const MenuHandler[]) {
 public GameMasterMenuItemHandler(uid, MenuInstance, MenuItem) {
 
     new message[50];
-    format(message, charsmax(message), "[GMMItemHandler] uid: %i MenuInstance: %s MenuItem: %s", uid, MenuInstance, MenuItem);
+    format(message, charsmax(message), "[ItemHandler] uid: %i MenuInstance: %s MenuItem: %s", uid, MenuInstance, MenuItem);
     say(message);
 
     if (MenuItem  == MENU_EXIT) {
@@ -76,6 +76,6 @@ public GameMasterMenuItemHandler(uid, MenuInstance, MenuItem) {
 
 public say(message[]) {
     new final_message[128]
-    format(final_message, charsmax(final_message), "[JOIN ALERT] %s", message)
+    format(final_message, charsmax(final_message), "[GMM] %s", message)
     log_message(final_message)
 }
