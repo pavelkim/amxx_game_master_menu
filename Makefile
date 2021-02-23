@@ -7,10 +7,12 @@ PROGNAME_VERSION = $(PROGNAME)-$(VERSION)
 SOURCE_FILENAME = amxx_game_master_menu.sma
 TARGZ_FILENAME = $(PROGNAME)-$(VERSION).tar.gz
 TARGZ_CONTENTS = ${PROGNAME} README.md Makefile .version
-LOGFILE = "${PROGNAME_VERSION}-build.log"
+LOGFILE = ${PROGNAME_VERSION}-build.log
 
-PLUGIN_COMPILER = "build/linux/amxxpc"
-
+PLUGIN_COMPILER_BASEDIR = build/linux
+PLUGIN_COMPILER_INCLUDE = build/include
+PLUGIN_COMPILER = ${PLUGIN_COMPILER_BASEDIR}/amxxpc
+LD_LIBRARY_PATH = $(PLUGIN_COMPILER_BASEDIR)
 .PHONY: all version build clean install test
 
 $(TARGZ_FILENAME):
@@ -19,8 +21,8 @@ $(TARGZ_FILENAME):
 	tar -zvcf "$(TARGZ_FILENAME)" "$(PROGNAME_VERSION)"
 
 $(PROGNAME):
-	sed -e "s/#define VERSION.*/#define VERSION \"${VERSION}\"/" -e "w ${SOURCE_FILENAME}.ready" ${SOURCE_FILENAME}
-	${PLUGIN_COMPILER} "${SOURCE_FILENAME}.ready" "-o${PROGNAME}" | tee ${LOGFILE}
+	sed -e "s/#define VERSION.*/#define VERSION \"${VERSION}\"/" "$(SOURCE_FILENAME)" > "$(SOURCE_FILENAME).ready"
+	LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)" ${PLUGIN_COMPILER} -i"$(PLUGIN_COMPILER_INCLUDE)" "$(SOURCE_FILENAME).ready" -o"$(PROGNAME)" | tee "${LOGFILE}"
 
 test:
 	@echo "Not implemented yet"
@@ -30,6 +32,9 @@ install:
 
 clean:
 	rm -vf "$(PROGNAME)"
+	rm -vf "$(LOGFILE)"
+	rm -rf "$(PROGNAME_VERSION)"
+	rm -vf "$(SOURCE_FILENAME).ready"
 	rm -vf "$(TARGZ_FILENAME)"
 
 build: $(PROGNAME)
