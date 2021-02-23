@@ -17,10 +17,10 @@
 
 public plugin_init() {
     register_plugin(PLUGIN, VERSION, AUTHOR );
-    register_clcmd("say /gamemaster", "GameMasterMenuHandler", ADMIN_MENU, "- easy game management");
+    register_clcmd("say /gamemaster", "GameMasterMenu", ADMIN_MENU, "- easy game management");
 }
 
-public GameMasterMenuHandler(uid, level, cid) {
+public GameMasterMenu(uid, level, cid) {
 
     new message[50];
     format(message, charsmax(message), "[GMMHandler] uid: %i level: %s cid: %s", uid, level, cid);
@@ -28,7 +28,7 @@ public GameMasterMenuHandler(uid, level, cid) {
 
     if (cmd_access(uid, level, cid, 0)) {
 
-        new MenuInstance = MakeGameMasterMenu(uid, "Game Master Menu", "GameMasterMenuHandler");
+        new MenuInstance = MakeGameMasterMenu(uid, "Game Master Menu", "GameMasterMenuItemHandler");
 
         menu_setprop(MenuInstance, MPROP_NUMBER_COLOR, "\y");
         menu_display(uid, MenuInstance);
