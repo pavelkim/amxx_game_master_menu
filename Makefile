@@ -32,6 +32,9 @@ install:
 
 clean:
 	rm -vf "$(PROGNAME)"
+	rm -vf "$(LOGFILE)"
+	rm -rf "$(PROGNAME_VERSION)"
+	rm -vf "$(SOURCE_FILENAME).ready"
 	rm -vf "$(TARGZ_FILENAME)"
 
 build: $(PROGNAME)
